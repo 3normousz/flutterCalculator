@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/widgets/calculator_buttons.dart';
+import 'package:flutter_application_1/widgets/zero_button.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,6 +14,9 @@ class _MyAppState extends State<MyApp> {
   String textToDisplay = "";
   String operation = "";
   String res = "";
+  String textBeforePlusMinus = "";
+  String resBeforePlusMinus = "";
+  String resAfterPlusMinus = "";
   int firstNum = 0;
   int secondNum = 0;
   int operationStatus = 0;
@@ -50,7 +54,8 @@ class _MyAppState extends State<MyApp> {
         btnVal == "7" ||
         btnVal == "8" ||
         btnVal == "9" ||
-        btnVal == "0") {
+        btnVal == "0" ||
+        btnVal == "00") {
       setState(() {
         textToDisplay += btnVal;
       });
@@ -123,6 +128,34 @@ class _MyAppState extends State<MyApp> {
       }
       resultStatus = 1;
     }
+
+    if (btnVal == "+/-") {
+      if (res == "") {
+        if (textToDisplay != "" &&
+            textToDisplay.substring(0, 1) != "0" &&
+            textToDisplay.substring(0, 1) != "-") {
+          textBeforePlusMinus = textToDisplay;
+          setState(() {
+            textToDisplay = "-" + textToDisplay;
+          });
+        } else if (textToDisplay.substring(0, 1) == "-") {
+          setState(() {
+            textToDisplay = textBeforePlusMinus;
+          });
+        } else {}
+      } else if (textToDisplay.substring(0, 1) != "-") {
+        resBeforePlusMinus = res;
+        setState(() {
+          textToDisplay = "-" + textToDisplay;
+        });
+      } else if (textToDisplay.substring(0, 1) == "-") {
+        resAfterPlusMinus = res;
+        setState(() {
+          print(resAfterPlusMinus.substring(1));
+          textToDisplay = resAfterPlusMinus.substring(1);
+        });
+      }
+    }
   }
 
   @override
@@ -181,8 +214,8 @@ class _MyAppState extends State<MyApp> {
                   callBack: btnClick,
                 ),
                 CalculatorButtons(
-                  text: "<",
-                  fillColor: 0xFFf4d160,
+                  text: "+/-",
+                  fillColor: 0xFFF57F17,
                   textColor: 0xFF000000,
                   textSize: 20,
                   callBack: btnClick,
@@ -200,7 +233,7 @@ class _MyAppState extends State<MyApp> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 CalculatorButtons(
-                  text: "9",
+                  text: "7",
                   fillColor: 0xFFEFEBE9,
                   textColor: 0xFF000000,
                   textSize: 20,
@@ -214,7 +247,7 @@ class _MyAppState extends State<MyApp> {
                   callBack: btnClick,
                 ),
                 CalculatorButtons(
-                  text: "7",
+                  text: "9",
                   fillColor: 0xFFEFEBE9,
                   textColor: 0xFF000000,
                   textSize: 20,
@@ -233,7 +266,7 @@ class _MyAppState extends State<MyApp> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 CalculatorButtons(
-                  text: "6",
+                  text: "4",
                   fillColor: 0xFFEFEBE9,
                   textColor: 0xFF000000,
                   textSize: 20,
@@ -247,7 +280,7 @@ class _MyAppState extends State<MyApp> {
                   callBack: btnClick,
                 ),
                 CalculatorButtons(
-                  text: "4",
+                  text: "6",
                   fillColor: 0xFFEFEBE9,
                   textColor: 0xFF000000,
                   textSize: 20,
@@ -266,7 +299,7 @@ class _MyAppState extends State<MyApp> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 CalculatorButtons(
-                  text: "3",
+                  text: "1",
                   fillColor: 0xFFEFEBE9,
                   textColor: 0xFF000000,
                   textSize: 20,
@@ -280,7 +313,7 @@ class _MyAppState extends State<MyApp> {
                   callBack: btnClick,
                 ),
                 CalculatorButtons(
-                  text: "1",
+                  text: "3",
                   fillColor: 0xFFEFEBE9,
                   textColor: 0xFF000000,
                   textSize: 20,
@@ -298,14 +331,7 @@ class _MyAppState extends State<MyApp> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                CalculatorButtons(
-                  text: "+/-",
-                  fillColor: 0xFFF57F17,
-                  textColor: 0xFF000000,
-                  textSize: 20,
-                  callBack: btnClick,
-                ),
-                CalculatorButtons(
+                zeroButtons(
                   text: "0",
                   fillColor: 0xFFEFEBE9,
                   textColor: 0xFF000000,

@@ -4,4 +4,4 @@ my first Flutter project.
 
 ## Demo
 
-![myfile](https://j.gifs.com/A6KD9B.gif)
+![image](https://github.com/3normousz/flutterCalculator/blob/main/myCalc.gif)
